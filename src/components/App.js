@@ -45,7 +45,7 @@ class App extends Component {
             exact path={routes.ACCOUNT}
             component={() => <AccountPage />}
           />
-
+          
         </div>
       </Router>
     );
