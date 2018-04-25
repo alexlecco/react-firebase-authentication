@@ -10,13 +10,30 @@ import HomePage from './Home';
 import AccountPage from './Account';
 
 import * as routes from '../constants/routes';
+import { firebase } from '../firebase';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authUser: null,
+    };
+  }
+
+  componentDidMount() {
+    firebase.auth.onAuthStateChanged(authUser => {
+      authUser
+        ? this.setState(() => ({ authUser }))
+        : this.setState(() => ({ authUser: null }));
+    });
+  }
+
   render() {
     return (
       <Router>
         <div>
-          <Navigation />
+          <Navigation authUser={this.state.authUser} />
 
           <hr/>
 
@@ -45,7 +62,7 @@ class App extends Component {
             exact path={routes.ACCOUNT}
             component={() => <AccountPage />}
           />
-          
+
         </div>
       </Router>
     );
